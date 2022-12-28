@@ -1,0 +1,207 @@
+import { FormEventHandler, useEffect, useState } from 'react';
+import './App.css';
+import { FaTrash } from 'react-icons/fa';
+
+type Comment = {
+    first_name: string;
+    last_name: string;
+    comment: string;
+    schedule_date: string;
+    email: string;
+    id: number;
+    is_deleted: boolean;
+
+}
+
+function Forms(){
+  // const [is_deleted, setIs_Deleted] = useState(false)
+   const  [isEmpty, setIsEmpty] = useState(false);
+    const [comments, setComments] = useState<Comment[]>();
+    const [form, setForm] = useState<any>({});
+    const [firstName, SetFirstName] = useState([]);
+    const [lastName, SetLastName] = useState([]);
+    const [email, SetEmail] = useState([]);
+    
+    const getData = async (commentId: number) => {
+      const result = await fetch(
+        'https://avvidhxhjmaskwwewvey.supabase.co/rest/v1/comments' ,
+        {
+          headers: {
+            apikey:
+              'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF2dmlkaHhoam1hc2t3d2V3dmV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzEwMzc3MDgsImV4cCI6MTk4NjYxMzcwOH0.urgAvh6ctpOFwvZyBtl0JlIT-3Axvw_9eKBQhtFrmDY',
+          },
+        },
+        // SetFirstName(result.first_name)
+      );
+      const data = await result.json() as Comment[] ;
+      const filteredData = data.filter( comment=>comment);
+      setComments(filteredData);
+      // console.log(data)
+    };
+    useEffect(() => {
+      getData();
+    }, []);
+  
+    async function onFormSubmit(event: React.FormEvent) {
+      event.preventDefault();
+      if(!form.first_name || !form.last_name || !form.email || !form.comment ){
+        console.log('please fill in all fields')
+        return;
+        
+      } else{console.log('w');}
+  
+      const result = await fetch(
+        'https://avvidhxhjmaskwwewvey.supabase.co/rest/v1/comments',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            apikey:
+              'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF2dmlkaHhoam1hc2t3d2V3dmV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzEwMzc3MDgsImV4cCI6MTk4NjYxMzcwOH0.urgAvh6ctpOFwvZyBtl0JlIT-3Axvw_9eKBQhtFrmDY',
+          },
+          body: JSON.stringify(form),
+        }
+      );
+      console.log(result);
+      getData();
+      
+
+    }
+
+
+    async function deleteComment(commentId: number) {
+        // Call API to delete comment
+        const result = await fetch(
+            'https://avvidhxhjmaskwwewvey.supabase.co/rest/v1/comments?id=eq.' + commentId,
+            {
+              method: 'DELETE',
+              headers: {
+                apikey:
+                  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF2dmlkaHhoam1hc2t3d2V3dmV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzEwMzc3MDgsImV4cCI6MTk4NjYxMzcwOH0.urgAvh6ctpOFwvZyBtl0JlIT-3Axvw_9eKBQhtFrmDY',
+              }
+            }
+        );
+
+        getData();
+    }
+
+    async function isDeleted(commentId: number) {
+        // TODO: Add code to update comment
+        let is_deleted = true
+        const result = await fetch(
+            'https://avvidhxhjmaskwwewvey.supabase.co/rest/v1/comments?id=eq.' + commentId,
+            {
+              method: 'put',
+              headers: {
+                'Content-Type': 'application/json',
+                apikey:
+                  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF2dmlkaHhoam1hc2t3d2V3dmV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzEwMzc3MDgsImV4cCI6MTk4NjYxMzcwOH0.urgAvh6ctpOFwvZyBtl0JlIT-3Axvw_9eKBQhtFrmDY',
+                  },
+                  body: JSON.stringify({ is_deleted: true })
+              // comments.is_deleted
+            } 
+        ) 
+        // { comments?.map(comment=>{comment.is_deleted = true})
+      }
+
+        // getData();
+        
+
+    
+
+  //   function isDeleted(commentId: number){ comments?.map(comment=>{comment.is_deleted = true})
+  // }
+
+      function selectPerson(){
+       
+      }
+
+
+    return ( 
+    <div>
+
+<table border={1}>
+      
+        <tr>
+          <th>ID</th>
+          <th>First Names</th>
+          <th>Last Names</th>
+          <th>Emails</th>
+          <th>Comment</th>
+          <th>Dates</th>
+          <th>Update</th>
+          <th>Action</th>
+          <th>Is Deleted</th>
+        </tr>
+    
+        {comments && comments.map(comment => {
+            return <tr key={comment.id}>
+                <td>{comment.id}</td>
+                <td>{comment.first_name}</td>
+                <td>{comment.last_name}</td>
+                <td>{comment.email}</td>
+                <td> {comment.comment}</td>
+                <td> <button>change</button> </td>
+                <td>{comment.schedule_date}</td>
+                <td><FaTrash onClick={() => {
+              
+              deleteComment(comment.id)
+                }} /></td>
+                <td>{JSON.stringify(comment.is_deleted)}</td>
+            </tr>
+        })}
+        
+      </table>
+
+     
+
+      <form onSubmit={onFormSubmit} id="form">
+        <div>
+          <input id="first_name" placeholder="first name"
+  
+           onChange={(e) => {
+            setForm((prev) => ({ ...prev, first_name: e.target.value }));
+          }} ></input>
+        </div>
+        <div>
+          <label></label>
+          <input type="string" placeholder="last name" 
+          onChange={(e) => {
+            setForm((prev) => ({ ...prev, last_name: e.target.value }));
+          }}></input>
+        </div>
+        <label></label>
+        <input type="string" placeholder="email"
+        onChange={(e) => {
+            setForm((prev) => ({ ...prev, email: e.target.value }));
+          }}></input>
+          <div>
+           <input type="string" placeholder="comment"
+        onChange={(e) => {
+            setForm((prev) => ({ ...prev, comment: e.target.value }));
+          }}></input>
+          </div>
+        <div>
+          <label>date</label>
+          <input type="date" placeholder="date"
+          onChange={(e) => {
+            setForm((prev) => ({ ...prev, schedule_date: e.target.value }));
+          }}></input>
+        </div>
+        <button> submit</button>
+      </form>
+      <button
+       onClick={()=>selectPerson(comment.id)}
+      >
+        update
+      </button>
+
+    </div>
+    )
+      
+
+};
+
+
+
+export default Forms;
