@@ -1,9 +1,8 @@
 import { FormEventHandler, useEffect, useState } from 'react';
 import './App.css';
-import { FaArrowAltCircleRight, FaTrash } from 'react-icons/fa';
+import { FaTrash } from 'react-icons/fa';
 import { supabase } from './supabase';
-import { SupabaseAuthClient } from '@supabase/supabase-js/dist/module/lib/SupabaseAuthClient';
-// import {DataBase} from 'lib/database.types'
+import Paper from '@mui/material/Paper'
 
 type Comment = {
   first_name: string;
@@ -18,30 +17,121 @@ type Comment = {
 
 function Forms() {
   // const [is_deleted, setIs_Deleted] = useState(false)
-  const [isEmpty, setIsEmpty] = useState(false);
-  const [comments, setComments] = useState<Comment[]>();
-  const [form, setForm] = useState<any>({});
-  const [firstName, SetFirstName] = useState([]);
-  const [lastName, SetLastName] = useState([]);
-  const [email, SetEmail] = useState([]);
-  const [date, setDate] = useState()
+   const  [isEmpty, setIsEmpty] = useState(false);
+    const [comments, setComments] = useState<Comment[]>();
+    const [form, setForm] = useState<any>({});
+    const [firstName, SetFirstName] = useState('');
+    const [lastName, SetLastName] = useState('');
+    const [email, SetEmail] = useState('');
+    const [comment, setComment] = useState('')
+    const [date, setEnteredDate]=useState('');
 
-  useEffect(() => {
-    getData();
-  }, []);
 
-  async function getData() {
+    useEffect(() => {
+      getData();
+    }, []);
+
+async function getData(){
     try {
-      const { data, error } = await supabase
-        .from('comments')
-        .select()
-      if (error) throw error;
-      if (data != null) {
+      const {data, error} = await supabase
+      .from('comments')
+      .select()
+      if(error) throw error;
+      if(data !=null){
         setComments(data)
       }
-    } catch (error) {
-      console.log(error.message)
     }
+    catch(error){
+      alert(error.message)
+    }
+}
+
+
+    
+    // const getData = async (commentId: number) => {
+    //   const result = await fetch(
+    //     'https://avvidhxhjmaskwwewvey.supabase.co/rest/v1/comments' ,
+    //     {
+    //       headers: {
+    //         apikey:
+    //           'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF2dmlkaHhoam1hc2t3d2V3dmV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzEwMzc3MDgsImV4cCI6MTk4NjYxMzcwOH0.urgAvh6ctpOFwvZyBtl0JlIT-3Axvw_9eKBQhtFrmDY',
+    //       },
+    //     },
+    //     // SetFirstName(result.first_name)
+    //   );
+    //   const data = await result.json() as Comment[] ;
+    //   const filteredData = data.filter( comment=>comment);
+    //   setComments(filteredData);
+    //   // console.log(data)
+    // };
+    
+
+    async function onFormSubmit(){
+      try {
+        const {data, error} = await supabase
+        .from('comments')
+        .insert({
+          first_name: firstName,
+          last_name: lastName,
+          email: email,
+          comment:comment,
+          date: date
+          
+
+        })
+        .single()
+        if(error) throw error;
+        window;location.reload();
+      }
+      catch(error){
+        alert(error.message)
+      }
+  }
+
+
+  
+    // async function onFormSubmit(event: React.FormEvent) {
+    //   // event.preventDefault();
+    //   if(!form.first_name || !form.last_name || !form.email || !form.comment ){
+    //     console.log('please fill in all fields')
+    //     return;
+        
+    //   } else{console.log('w');}
+  
+    //   const result = await fetch(
+    //     'https://avvidhxhjmaskwwewvey.supabase.co/rest/v1/comments',
+    //     {
+    //       method: 'POST',
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //         apikey:
+    //           'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF2dmlkaHhoam1hc2t3d2V3dmV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzEwMzc3MDgsImV4cCI6MTk4NjYxMzcwOH0.urgAvh6ctpOFwvZyBtl0JlIT-3Axvw_9eKBQhtFrmDY',
+    //       },
+    //       body: JSON.stringify(form),
+    //     }
+    //   );
+    //   console.log(result);
+    //   getData();
+      
+
+    // }
+
+
+
+  //   async function deleteComment(commentId: number){
+  //     try {
+  //       const {data, error} = await supabase
+  //       .from('comments')
+  //       .delete()
+  //       .eq('id', comments.id)
+  //       // select()
+  //       if(error) throw error;
+  //       window;location.reload();
+  //     }
+  //     catch(error){
+  //       alert(error.message)
+  //     }
+  // }
 
   }
 
@@ -92,43 +182,24 @@ function Forms() {
 
 
 
-
-
-//   async function onFormSubmit(event: React.FormEvent) {
-//     event.preventDefault();
-//     if (!form.first_name || !form.last_name || !form.email || !form.comment) {
-//       console.log('please fill in all fields')
-//       return;
-
-//     } else { console.log('w'); }
-
-//     const result = await fetch(
-//       'https://avvidhxhjmaskwwewvey.supabase.co/rest/v1/comments',
-//       {
-//         method: 'POST',
-//         headers: {
-//           'Content-Type': 'application/json',
-//           apikey:
-//             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF2dmlkaHhoam1hc2t3d2V3dmV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzEwMzc3MDgsImV4cCI6MTk4NjYxMzcwOH0.urgAvh6ctpOFwvZyBtl0JlIT-3Axvw_9eKBQhtFrmDY',
-//         },
-//         body: JSON.stringify(form),
-//       }
-//     );
-//     console.log(result);
-//     getData();
-// }
-
-
-  async function deleteComment(commentId: number) {
-    // Call API to delete comment
-    const result = await fetch(
-      'https://avvidhxhjmaskwwewvey.supabase.co/rest/v1/comments?id=eq.' + commentId,
-      {
-        method: 'DELETE',
-        headers: {
-          apikey:
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF2dmlkaHhoam1hc2t3d2V3dmV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzEwMzc3MDgsImV4cCI6MTk4NjYxMzcwOH0.urgAvh6ctpOFwvZyBtl0JlIT-3Axvw_9eKBQhtFrmDY',
-        }
+    async function isDeleted(commentId: number) {
+        // TODO: Add code to update comment
+        // let is_deleted = true
+        const result = await fetch(
+            'https://avvidhxhjmaskwwewvey.supabase.co/rest/v1/comments?id=eq.' + commentId,
+            {
+              method: 'PATCH',
+              headers: {
+                'Content-Type': 'application/json',
+                apikey:
+                  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF2dmlkaHhoam1hc2t3d2V3dmV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzEwMzc3MDgsImV4cCI6MTk4NjYxMzcwOH0.urgAvh6ctpOFwvZyBtl0JlIT-3Axvw_9eKBQhtFrmDY',
+                  },
+                  body: JSON.stringify({ is_deleted: true })
+              // comments.is_deleted
+            } 
+        ) 
+        getData();
+        // { comments?.map(comment=>{comment.is_deleted = true})
       }
     );
 
@@ -158,6 +229,8 @@ function Forms() {
 
 
 
+       
+        
 
 
   //   function isDeleted(commentId: number){ comments?.map(comment=>{comment.is_deleted = true})
@@ -171,8 +244,8 @@ function Forms() {
   return (
     <div>
 
-      <table border={1}>
-
+{/* <table border={1}>
+      
         <tr>
           <th>ID</th>
           <th>First Names</th>
@@ -201,8 +274,8 @@ function Forms() {
             <td>{JSON.stringify(comment.is_deleted)}</td>
           </tr>
         })}
-
-      </table>
+        
+      </table> */}
 
 
 
@@ -239,7 +312,7 @@ function Forms() {
               setForm((prev) => ({ ...prev, schedule_date: e.target.value }));
             }}></input>
         </div>
-        <button> submit</button>
+        <button onClick={()=>onFormSubmit()}> submit</button>
       </form>
       <button
         onClick={() => selectPerson(comment.id)}
