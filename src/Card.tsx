@@ -6,7 +6,7 @@ import { FaTrash } from "react-icons/fa";
 import { supabase } from "./supabase";
 import Typography from "@mui/material/Typography";
 import Box from '@mui/material/Box'
-import {EmailRounded, CommentBankTwoTone, Person2Rounded, DateRangeRounded} from '@mui/icons-material'
+import {EmailRounded, QuestionMark, DeleteForeverRounded, CommentBankTwoTone, Person2Rounded, DateRangeRounded} from '@mui/icons-material'
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 
@@ -34,7 +34,7 @@ const Card = () => {
 
   async function getData() {
     try {
-      const { data, error } = await supabase.from("comments").select();
+      const { data, error } = await supabase.from("comments").select().limit(2);
       if (error) throw error;
       if (data != null) {
         setComments(data);
@@ -44,21 +44,38 @@ const Card = () => {
     }
   }
 
-  async function deleteComment(){
-    try {
-      const {data, error} = await supabase
-      .from('comments')
-      .delete()
-      .eq('id', comments.id)
-    //   select()
-      if(error) throw error;
-      window;location.reload();
-    }
-    catch(error){
-      alert(error.message)
-      console.log(error)
-    }
-}
+//   async function deleteComment(){
+//     try {
+//       const {data, error} = await supabase
+//       .from('comments')
+//       .delete()
+//       .eq('id', comments.id)
+//     //   select()
+//       if(error) throw error;
+//       window;location.reload();
+//     }
+//     catch(error){
+//       alert(error.message)
+//       console.log(error)
+//     }
+// }
+
+// async function deleteComment(commentId: number) {
+//   // Call API to delete comment
+//   const result = await fetch(
+//       'https://avvidhxhjmaskwwewvey.supabase.co/rest/v1/comments?id=eq.' + commentId,
+//       {
+//         method: 'DELETE',
+//         headers: {
+//           apikey:
+//             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF2dmlkaHhoam1hc2t3d2V3dmV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzEwMzc3MDgsImV4cCI6MTk4NjYxMzcwOH0.urgAvh6ctpOFwvZyBtl0JlIT-3Axvw_9eKBQhtFrmDY',
+//         }
+//       }
+//   );
+
+//   getData();
+// }
+
 
     // async function deleteComment(commentId: number) {
     //     // Call API to delete comment
@@ -92,7 +109,7 @@ const Card = () => {
                     borderSpacing: '',
                     display: 'flex'
                     }}>
-              <Person2Rounded/>
+              <Person2Rounded/> 
                 <Typography color={'blue'} variant="h6" component="h2">
                   {comment.first_name} {comment.last_name} {comment.id}
                 </Typography>
@@ -115,7 +132,6 @@ const Card = () => {
                   {comment.schedule_date} 
                 </Typography>
                 </Box>
-                
                 <Box
                 sx={{
                     // alignItems: 'left',
@@ -126,9 +142,20 @@ const Card = () => {
                 {comment.email}
                 </Typography>
                 </Box>
+
+                <Box
+                sx={{
+                    // alignItems: 'left',
+                    display: 'flex'
+                    }}>
+                <DeleteForeverRounded sx={{width: 15.5}}/>
+                <Typography color={'blue'}variant="body2" component="h2">
+                {JSON.stringify(comment.is_deleted)}
+                </Typography>
+                </Box>
                 <br/>
                 <ButtonGroup variant="contained" aria-label="outlined primary button group" size='small'>
-                <Button color='secondary' onClick={deleteComment}>edit</Button>
+                <Button color='secondary'>Edit</Button>
                 <Button color='success'>cancel</Button>
                 <Button color='warning'>delete</Button>
             </ButtonGroup>

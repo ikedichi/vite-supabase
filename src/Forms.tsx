@@ -66,55 +66,74 @@ function Forms() {
   // };
 
 
-  async function onFormSubmit() {
-    try {
-      const { data, error } = await supabase
-        .from('comments')
-        .insert({
-          first_name: firstName,
-          last_name: lastName,
-          email: email,
-          comment: comment,
-          date: date
+    
+    // const getData = async (commentId: number) => {
+    //   const result = await fetch(
+    //     'https://avvidhxhjmaskwwewvey.supabase.co/rest/v1/comments' ,
+    //     {
+    //       headers: {
+    //         apikey:
+    //           'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF2dmlkaHhoam1hc2t3d2V3dmV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzEwMzc3MDgsImV4cCI6MTk4NjYxMzcwOH0.urgAvh6ctpOFwvZyBtl0JlIT-3Axvw_9eKBQhtFrmDY',
+    //       },
+    //     },
+    //     // SetFirstName(result.first_name)
+    //   );
+    //   const data = await result.json() as Comment[] ;
+    //   const filteredData = data.filter( comment=>comment);
+    //   setComments(filteredData);
+    //   // console.log(data)
+    // };
+    
 
+  //   async function onFormSubmit(){
+  //     try {
+  //       const {data, error} = await supabase
+  //       .from('comments')
+  //       .insert({
+  //         first_name: firstName,
+  //         last_name: lastName,
+  //         email: email,
+  //         comment:comment,
+  //         date: date
+          
 
-        })
-        .single()
-      if (error) throw error;
-      window; location.reload();
-    }
-    catch (error) {
-      alert(error.message)
-    }
-  }
-
-
-
-  // async function onFormSubmit(event: React.FormEvent) {
-  //   // event.preventDefault();
-  //   if(!form.first_name || !form.last_name || !form.email || !form.comment ){
-  //     console.log('please fill in all fields')
-  //     return;
-
-  //   } else{console.log('w');}
-
-  //   const result = await fetch(
-  //     'https://avvidhxhjmaskwwewvey.supabase.co/rest/v1/comments',
-  //     {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         apikey:
-  //           'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF2dmlkaHhoam1hc2t3d2V3dmV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzEwMzc3MDgsImV4cCI6MTk4NjYxMzcwOH0.urgAvh6ctpOFwvZyBtl0JlIT-3Axvw_9eKBQhtFrmDY',
-  //       },
-  //       body: JSON.stringify(form),
+  //       })
+  //       .single()
+  //       if(error) throw error;
+  //       window;location.reload();
   //     }
-  //   );
-  //   console.log(result);
-  //   getData();
-
-
+  //     catch(error){
+  //       alert(error.message)
+  //     }
   // }
+
+
+  
+    async function onFormSubmit(event: React.FormEvent) {
+      event.preventDefault();
+      if(!form.first_name || !form.last_name || !form.email || !form.comment ){
+        console.log('please fill in all fields')
+        return;
+        
+      } else{console.log('w');}
+  
+      const result = await fetch(
+        'https://avvidhxhjmaskwwewvey.supabase.co/rest/v1/comments',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            apikey:
+              'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF2dmlkaHhoam1hc2t3d2V3dmV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzEwMzc3MDgsImV4cCI6MTk4NjYxMzcwOH0.urgAvh6ctpOFwvZyBtl0JlIT-3Axvw_9eKBQhtFrmDY',
+          },
+          body: JSON.stringify(form),
+        }
+      );
+      console.log(result);
+      getData();
+      
+
+    }
 
 
 
@@ -290,17 +309,18 @@ return (
           onChange={(e) => {
             setForm((prev) => ({ ...prev, schedule_date: e.target.value }));
           }}></input>
-      </div>
-      <button onClick={() => onFormSubmit()}> submit</button>
-    </form>
-    <button
-      onClick={() => selectPerson(comment.id)}
-    >
-      update
-    </button>
+        </div>
+        <button onClick={()=>onFormSubmit(comment.id)}> submit</button>
+        {/* <button type='submit'>Submit</button> */}
+      </form>
+      <button
+       onClick={()=>selectPerson(comment.id)}
+      >
+        update
+      </button>
 
-  </div>
-)
+    </div>
+    )
       
 
 };
