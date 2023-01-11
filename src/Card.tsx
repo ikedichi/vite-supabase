@@ -93,6 +93,49 @@ const Card = () => {
     //     getData();
     // }
 
+   
+async function isDeleted(commentId: number) {
+  // TODO: Add code to update comment
+  // let is_deleted = true
+  const result = await fetch(
+    'https://avvidhxhjmaskwwewvey.supabase.co/rest/v1/comments?id=eq.' + commentId,
+    {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        apikey:
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF2dmlkaHhoam1hc2t3d2V3dmV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzEwMzc3MDgsImV4cCI6MTk4NjYxMzcwOH0.urgAvh6ctpOFwvZyBtl0JlIT-3Axvw_9eKBQhtFrmDY',
+      },
+      body: JSON.stringify({ is_deleted: true })
+      // comments.is_deleted
+    }
+  )
+  getData();
+ 
+}
+
+async function isNotDeleted(commentId: number) {
+  // TODO: Add code to update comment
+  // let is_deleted = true
+  const result = await fetch(
+    'https://avvidhxhjmaskwwewvey.supabase.co/rest/v1/comments?id=eq.' + commentId,
+    {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        apikey:
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF2dmlkaHhoam1hc2t3d2V3dmV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzEwMzc3MDgsImV4cCI6MTk4NjYxMzcwOH0.urgAvh6ctpOFwvZyBtl0JlIT-3Axvw_9eKBQhtFrmDY',
+      },
+      body: JSON.stringify({ is_deleted: false })
+      // comments.is_deleted
+    }
+  )
+  getData();
+ 
+}
+
+ 
+
 
   return (
     <div>
@@ -156,8 +199,8 @@ const Card = () => {
                 <br/>
                 <ButtonGroup variant="contained" aria-label="outlined primary button group" size='small'>
                 <Button color='secondary'>Edit</Button>
-                <Button color='success'>cancel</Button>
-                <Button color='warning'>delete</Button>
+                <Button color='success' onClick={()=>isNotDeleted(comment.id)}>cancel</Button>
+                <Button color='warning' onClick={()=>isDeleted(comment.id)}>delete</Button>
             </ButtonGroup>
                 
               </Paper>
