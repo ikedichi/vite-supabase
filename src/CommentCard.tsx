@@ -14,7 +14,14 @@ export default function CommentCard({ comment, isDeleted, isNotDeleted }:
         isNotDeleted(commentId: number): Promise<void>
     }) {
 
+        const [email, setEmail] = useState('')
+
+
         const [editMode, setEditMode] = useState(false);
+        console.log(email)
+
+        const editEmail = editMode&& <input id="email" placeholder="change email" onChange={(e)=>setEmail(e.target.value)}></input>
+        const Email = email
 
     return (
         <div>
@@ -61,7 +68,8 @@ export default function CommentCard({ comment, isDeleted, isNotDeleted }:
                             {!editMode && <Typography color={'blue'} variant="body2" component="h2">
                                 {comment.email}
                             </Typography>}
-                            {editMode && <div>Hi</div>}
+                            {editEmail}
+                            <div>{email}</div>
                         </Box>
 
                         <Box
@@ -78,7 +86,7 @@ export default function CommentCard({ comment, isDeleted, isNotDeleted }:
                         <ButtonGroup variant="contained" aria-label="outlined primary button group" size='small'>
                             <Button color='secondary' onClick={() => {
                                 setEditMode(true);
-                            }} >Edit</Button>
+                            }} >{editMode&& 'update' || 'edit'}</Button>
                             <Button color='success' onClick={() => isNotDeleted(comment.id)}>cancel</Button>
                             <Button color='warning' onClick={() => isDeleted(comment.id)}>delete</Button>
                         </ButtonGroup>
