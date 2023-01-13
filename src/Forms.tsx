@@ -15,7 +15,7 @@ type Comment = {
 
 }
 
-function Forms() {
+function Forms(props) {
   // const [is_deleted, setIs_Deleted] = useState(false)
   const [isEmpty, setIsEmpty] = useState(false);
   const [comments, setComments] = useState<Comment[]>();
@@ -25,6 +25,14 @@ function Forms() {
   const [email, SetEmail] = useState('');
   const [comment, setComment] = useState('')
   const [date, setEnteredDate] = useState('');
+  const [title, setTitle] = useState(props.title);
+  const clickHandler = () => {
+    setTitle(<input id="email" placeholder="change email" onChange={(e)=>SetEmail(e.target.value)}></input>
+    );
+    console.log(email);
+   
+};
+
 
 
   useEffect(() => {
