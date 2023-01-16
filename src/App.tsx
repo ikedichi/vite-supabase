@@ -73,7 +73,7 @@ async function getData(){
         ))} */}
    
     {/* < Grid> */}
-     <Forms></Forms>
+     {/* <Forms></Forms> */}
      <Card></Card>
      {/* <Card></Card>
      <Card></Card> */}

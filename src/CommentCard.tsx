@@ -7,11 +7,12 @@ import { Paper, Box, Typography } from "@mui/material";
 import { useState } from "react";
 
 
-export default function CommentCard({ comment, isDeleted, isNotDeleted }:
+export default function CommentCard({ comment, isDeleted, isNotDeleted, updadte, }:
     {
-        comment: Comment, isDeleted(commentId: number): Promise<void>,
+        comment: Comment, 
+        isDeleted(commentId: number): Promise<void>,
         isNotDeleted(commentId: number): Promise<void>,
-        isNotDeleted(commentId: number): Promise<void>
+        updadte(commentId: number): Promise<void>,
     }) {
 
         const [email, setEmail] = useState('')
@@ -21,12 +22,12 @@ export default function CommentCard({ comment, isDeleted, isNotDeleted }:
         console.log(email)
 
         const editEmail = editMode&& <input id="email" placeholder="change email" onChange={(e)=>setEmail(e.target.value)}></input>
-        const Email = email
+     
 
     return (
         <div>
             <div>
-                <Forms title={comment.email}></Forms>
+                {/* <Forms title={comment.email}></Forms> */}
                 {/* <Grid container spacing={4}> */}
                 <Grid item key={comment.id} >
 
@@ -68,9 +69,20 @@ export default function CommentCard({ comment, isDeleted, isNotDeleted }:
                             {!editMode && <Typography color={'blue'} variant="body2" component="h2">
                                 {comment.email}
                             </Typography>}
-                            {editEmail}
-                            <div>{email}</div>
+                            {editEmail} 
                         </Box>
+
+                       {editMode && <Box
+                            sx={{
+                                // alignItems: 'left',
+                                display: 'flex'
+                            }}>
+                            <EmailRounded sx={{ width: 15.5 }}></EmailRounded>
+                            <Typography color={'blue'} variant="body2" component="h2">
+                            {/* <div>{email}</div> */}
+                            </Typography>
+                            <div>{email}</div>
+                        </Box> }
 
                         <Box
                             sx={{
@@ -86,7 +98,7 @@ export default function CommentCard({ comment, isDeleted, isNotDeleted }:
                         <ButtonGroup variant="contained" aria-label="outlined primary button group" size='small'>
                             <Button color='secondary' onClick={() => {
                                 setEditMode(true);
-                            }} >{editMode&& 'update' || 'edit'}</Button>
+                            }} >{editMode&& 'update'|| 'edit'}</Button>
                             <Button color='success' onClick={() => isNotDeleted(comment.id)}>cancel</Button>
                             <Button color='warning' onClick={() => isDeleted(comment.id)}>delete</Button>
                         </ButtonGroup>
