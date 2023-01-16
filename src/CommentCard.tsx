@@ -5,6 +5,8 @@ import Forms from "./Forms";
 import { Person2Rounded, CommentBankTwoTone, DateRangeRounded, EmailRounded, DeleteForeverRounded } from "@mui/icons-material";
 import { Paper, Box, Typography } from "@mui/material";
 import { useState } from "react";
+import { supabase } from "./supabase";
+
 
 
 export default function CommentCard({ comment, isDeleted, isNotDeleted, updadte, }:
@@ -15,13 +17,41 @@ export default function CommentCard({ comment, isDeleted, isNotDeleted, updadte,
         updadte(commentId: number): Promise<void>,
     }) {
 
-        const [email, setEmail] = useState('')
+        // const [title, setTitle] = useState(props.title);
+        const [email, setEmail] = useState()
+        const [people, setPeople] = useState([]);
+      // const [editing, setEditing] = useState(false
+
+       
 
 
         const [editMode, setEditMode] = useState(false);
         console.log(email)
 
         const editEmail = editMode&& <input id="email" placeholder="change email" onChange={(e)=>setEmail(e.target.value)}></input>
+
+        function cancle(){
+            setEditMode(false)
+        }
+
+        async function  update(){
+            // event.preventDefault();
+            try {
+              const {data, error} = await supabase
+              .from("comments")
+              .update({
+                // first_name: first,
+                // last_name: last,
+                email: email,
+                // date: date,
+              })
+              .eq('id', comment.id)
+              if(error) throw error;
+              window.location.reload();
+            } catch (error){
+          alert(error.message);
+            }
+          };
      
 
     return (
@@ -96,11 +126,12 @@ export default function CommentCard({ comment, isDeleted, isNotDeleted, updadte,
                         </Box>
                         <br />
                         <ButtonGroup variant="contained" aria-label="outlined primary button group" size='small'>
-                            <Button color='secondary' onClick={() => {
+                        {!editMode &&  <Button color='secondary' onClick={() => {
                                 setEditMode(true);
-                            }} >{editMode&& 'update'|| 'edit'}</Button>
-                            <Button color='success' onClick={() => isNotDeleted(comment.id)}>cancel</Button>
-                            <Button color='warning' onClick={() => isDeleted(comment.id)}>delete</Button>
+                            }} >edit</Button> ||  <Button color='success' onClick={() => update()}>update</Button>}
+                             {editMode && <Button color='success' onClick={() => cancle()}>unedit</Button>}
+                            {/* <Button color='success' onClick={() => update()}>cancel</Button> */}
+                            {editMode && <Button color='warning' onClick={() => isDeleted(comment.id)}>delete</Button>}
                         </ButtonGroup>
 
                     </Paper>

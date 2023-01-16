@@ -117,18 +117,19 @@ async function isDeleted(commentId: number) {
 }
 let Email = SetEmail
 
-async function update(commentId: number) {
+async function updadte(commentId: number) {
   const result = await fetch(
     'https://avvidhxhjmaskwwewvey.supabase.co/rest/v1/comments?id=eq.' + commentId,
     {
-      method: 'PATCH  ',
+      method: 'POST ',
       headers: {
         'Content-Type': 'application/json',
         apikey:
           'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF2dmlkaHhoam1hc2t3d2V3dmV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzEwMzc3MDgsImV4cCI6MTk4NjYxMzcwOH0.urgAvh6ctpOFwvZyBtl0JlIT-3Axvw_9eKBQhtFrmDY',
       },
-     
+      body: JSON.stringify({ email: email})
       // comments.is_deleted
+      
     }
   )
   getData();
@@ -163,7 +164,7 @@ async function isNotDeleted(commentId: number) {
       {comments &&
         comments.map((comment) => {
           return (
-            <CommentCard comment={comment} isDeleted={isDeleted} isNotDeleted={isNotDeleted} update={update} />            
+            <CommentCard comment={comment} isDeleted={isDeleted} isNotDeleted={isNotDeleted} updadte={updadte} />            
           );
         })}
     </div>
