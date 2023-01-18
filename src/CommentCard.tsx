@@ -26,7 +26,7 @@ export default function CommentCard({ comment, isDeleted, isNotDeleted, updadte,
 
 
         const [editMode, setEditMode] = useState(false);
-        console.log(email)
+       
 
         const editEmail = editMode&& <input id="email" placeholder="change email" onChange={(e)=>setEmail(e.target.value)}></input>
 
@@ -55,11 +55,11 @@ export default function CommentCard({ comment, isDeleted, isNotDeleted, updadte,
      
 
     return (
-        <div>
-            <div>
+        <div >
+            <div >
                 {/* <Forms title={comment.email}></Forms> */}
                 {/* <Grid container spacing={4}> */}
-                <Grid item key={comment.id} >
+                <Grid key={comment.id}>
 
                     <Paper elevation={5} >
                         <Box sx={{
@@ -87,7 +87,7 @@ export default function CommentCard({ comment, isDeleted, isNotDeleted, updadte,
                         }}>
                             <DateRangeRounded sx={{ width: 15.5 }} />
                             <Typography color={'black'} variant="subtitle1" component="h2">
-                                {comment.schedule_date}
+                                {comment.schedule_date.toLocaleString()}
                             </Typography>
                         </Box>
                         <Box
@@ -137,6 +137,7 @@ export default function CommentCard({ comment, isDeleted, isNotDeleted, updadte,
                     </Paper>
 
                 </Grid>
+                
                 {/* </Grid> */}
                 {/* <Box padding={3}>
       <Paper elevation={5}>

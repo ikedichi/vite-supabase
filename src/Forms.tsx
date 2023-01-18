@@ -3,6 +3,7 @@ import './App.css';
 import { FaTrash } from 'react-icons/fa';
 import { supabase } from './supabase';
 import Paper from '@mui/material/Paper'
+import { ReplayOutlined, WindowSharp } from '@mui/icons-material';
 
 type Comment = {
   first_name: string;
@@ -138,7 +139,8 @@ function Forms(props) {
         }
       );
       console.log(result);
-      getData();
+      location.reload();
+      // getData();
       
 
     }

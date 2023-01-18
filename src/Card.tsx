@@ -36,7 +36,7 @@ const Card = () => {
 
   async function getData() {
     try {
-      const { data, error } = await supabase.from("comments").select().limit(4);
+      const { data, error } = await supabase.from("comments").select();
       if (error) throw error;
       if (data != null) {
         setComments(data);
