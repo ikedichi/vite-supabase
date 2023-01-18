@@ -53,17 +53,17 @@ export default function CommentCard({ comment, isDeleted, isNotDeleted, updadte,
             }
           };
      
-
+          
     return (
         <div >
             <div >
                 {/* <Forms title={comment.email}></Forms> */}
                 {/* <Grid container spacing={4}> */}
-                <Grid key={comment.id}>
+                <Grid>
 
                     <Paper elevation={5} >
                         <Box sx={{
-                            alignItems: 'left',
+                            alignItems: 'center',
                             borderSpacing: '',
                             display: 'flex'
                         }}>
@@ -73,7 +73,7 @@ export default function CommentCard({ comment, isDeleted, isNotDeleted, updadte,
                             </Typography>
                         </Box>
                         <Box sx={{
-                            // alignItems: 'left',
+                             alignItems: 'center',
                             display: 'flex'
                         }}>
                             <CommentBankTwoTone sx={{ width: 15.5 }} />
@@ -82,17 +82,17 @@ export default function CommentCard({ comment, isDeleted, isNotDeleted, updadte,
                             </Typography>
                         </Box>
                         <Box sx={{
-                            // alignItems: 'left',
+                            alignItems: 'center',
                             display: 'flex'
                         }}>
                             <DateRangeRounded sx={{ width: 15.5 }} />
                             <Typography color={'black'} variant="subtitle1" component="h2">
-                                {comment.schedule_date.toLocaleString()}
+                                {new Date (comment.schedule_date).toLocaleString()}
                             </Typography>
                         </Box>
                         <Box
                             sx={{
-                                // alignItems: 'left',
+                                 alignItems: 'center',
                                 display: 'flex'
                             }}>
                             <EmailRounded sx={{ width: 15.5 }}></EmailRounded>
@@ -104,7 +104,7 @@ export default function CommentCard({ comment, isDeleted, isNotDeleted, updadte,
 
                        {editMode && <Box
                             sx={{
-                                // alignItems: 'left',
+                                 alignItems: 'center',
                                 display: 'flex'
                             }}>
                             <EmailRounded sx={{ width: 15.5 }}></EmailRounded>
@@ -116,7 +116,7 @@ export default function CommentCard({ comment, isDeleted, isNotDeleted, updadte,
 
                         <Box
                             sx={{
-                                // alignItems: 'left',
+                                alignItems: 'center',
                                 display: 'flex'
                             }}>
                             <DeleteForeverRounded sx={{ width: 15.5 }} />
