@@ -7,14 +7,15 @@ import Forms from './Forms'
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Card from './Card'
-import PrimarySearchAppBa from './AppBar'
+import PrimarySearchAppBa from './AppBars'
 import { CenterFocusStrong, ForkLeft } from '@mui/icons-material';
 import cities from './Forms'
 import { Paper, Typography } from '@mui/material';
 import { supabase } from "./supabase";
-import { FormEventHandler, useEffect, useState } from "react";
+import React, { FormEventHandler, useEffect, useState } from "react";
 import Box from '@mui/material/Box'
-import {EmailRounded, CommentBankTwoTone, Person2Rounded, DateRangeRounded} from '@mui/icons-material'
+import {EmailRounded, CommentBankTwoTone, Person2Rounded, DateRangeRounded} from '@mui/icons-material';
+import Menu from "./Menu"
 
 
 
@@ -61,6 +62,7 @@ async function getData(){
   return (
     <div className='App'>
       <PrimarySearchAppBa/>
+      {/* <Menu></Menu> */}
     {/* <Container sx={{ margin: 9}}> */}
    
         {/* {comments&&comments.map((comment)=>(

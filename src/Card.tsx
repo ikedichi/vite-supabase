@@ -12,6 +12,7 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import Forms from "./Forms";
 import CommentCard from "./CommentCard";
 
+
 export type Comment = {
   first_name: string;
   last_name: string;
@@ -23,7 +24,7 @@ export type Comment = {
 };
 
 const Card = () => {
-  const [isEmpty, setIsEmpty] = useState(false);
+  const [orderBy, setIsEmpty] = useState('created_at');
   const [comments, setComments] = useState<Comment[]>();
   const [form, setForm] = useState<any>({});
   const [firstName, SetFirstName] = useState("");
@@ -36,7 +37,11 @@ const Card = () => {
 
   async function getData() {
     try {
-      const { data, error } = await supabase.from("comments").select();
+      const { data, error } = await supabase
+      .from("comments")
+      .select()
+      // .limit(1)
+      .order(orderBy,  {ascending: false} );
       if (error) throw error;
       if (data != null) {
         setComments(data);
@@ -46,55 +51,11 @@ const Card = () => {
     }
   }
 
-//   async function deleteComment(){
-//     try {
-//       const {data, error} = await supabase
-//       .from('comments')
-//       .delete()
-//       .eq('id', comments.id)
-//     //   select()
-//       if(error) throw error;
-//       window;location.reload();
-//     }
-//     catch(error){
-//       alert(error.message)
-//       console.log(error)
-//     }
-// }
-
-// async function deleteComment(commentId: number) {
-//   // Call API to delete comment
-//   const result = await fetch(
-//       'https://avvidhxhjmaskwwewvey.supabase.co/rest/v1/comments?id=eq.' + commentId,
-//       {
-//         method: 'DELETE',
-//         headers: {
-//           apikey:
-//             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF2dmlkaHhoam1hc2t3d2V3dmV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzEwMzc3MDgsImV4cCI6MTk4NjYxMzcwOH0.urgAvh6ctpOFwvZyBtl0JlIT-3Axvw_9eKBQhtFrmDY',
-//         }
-//       }
-//   );
-
-//   getData();
-// }
 
 
-    // async function deleteComment(commentId: number) {
-    //     // Call API to delete comment
-    //     const result = await fetch(
-    //         'https://avvidhxhjmaskwwewvey.supabase.co/rest/v1/comments?id=eq.' + commentId,
-    //         {
-    //           method: 'DELETE',
-    //           headers: {
-    //             apikey:
-    //               'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF2dmlkaHhoam1hc2t3d2V3dmV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzEwMzc3MDgsImV4cCI6MTk4NjYxMzcwOH0.urgAvh6ctpOFwvZyBtl0JlIT-3Axvw_9eKBQhtFrmDY',
-    //           }
-    //         }
-    //     );
-
-    //     getData();
-    // }
-
+  async function Order(){
+    setIsEmpty('created_at')
+  }
    
 async function isDeleted(commentId: number) {
   // TODO: Add code to update comment
@@ -115,26 +76,7 @@ async function isDeleted(commentId: number) {
   getData();
  
 }
-let Email = SetEmail
 
-async function updadte(commentId: number) {
-  const result = await fetch(
-    'https://avvidhxhjmaskwwewvey.supabase.co/rest/v1/comments?id=eq.' + commentId,
-    {
-      method: 'POST ',
-      headers: {
-        'Content-Type': 'application/json',
-        apikey:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF2dmlkaHhoam1hc2t3d2V3dmV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzEwMzc3MDgsImV4cCI6MTk4NjYxMzcwOH0.urgAvh6ctpOFwvZyBtl0JlIT-3Axvw_9eKBQhtFrmDY',
-      },
-      body: JSON.stringify({ email: email})
-      // comments.is_deleted
-      
-    }
-  )
-  getData();
- 
-}
 
 async function isNotDeleted(commentId: number) {
   const result = await fetch(
@@ -154,8 +96,6 @@ async function isNotDeleted(commentId: number) {
  
 }
 
- let title = 'car'
-
 
   return (
     <div>
@@ -164,7 +104,8 @@ async function isNotDeleted(commentId: number) {
       {comments &&
         comments.map((comment) => {
           return (
-            <CommentCard key={comment.id} comment={comment} isDeleted={isDeleted} isNotDeleted={isNotDeleted} updadte={updadte} />            
+            <CommentCard key={comment.id} comment={comment} 
+            isDeleted={isDeleted} isNotDeleted={isNotDeleted} />            
           );
         })}
     </div>

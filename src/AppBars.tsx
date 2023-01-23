@@ -56,7 +56,15 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function PrimarySearchAppBar() {
+export default function PrimarySearchAppBar(
+  // { comment, isDeleted, isNotDeleted, updadte, }:
+  //   {
+  //       comment: Comment, 
+  //       isDeleted(commentId: number): Promise<void>,
+  //       isNotDeleted(commentId: number): Promise<void>,
+  //       updadte(commentId: number): Promise<void>,
+  //   }
+) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
@@ -70,6 +78,7 @@ export default function PrimarySearchAppBar() {
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
+    
   };
 
   const handleMenuClose = () => {
@@ -126,7 +135,7 @@ export default function PrimarySearchAppBar() {
             <MailIcon />
           </Badge>
         </IconButton>
-        <p>Messages</p>
+        <p>By Date</p>
       </MenuItem>
       <MenuItem>
         <IconButton
@@ -134,11 +143,11 @@ export default function PrimarySearchAppBar() {
           aria-label="show 17 new notifications"
           color="inherit"
         >
-          <Badge badgeContent={17} color="error">
+          <Badge badgeContent={0} color="error">
             <NotificationsIcon />
           </Badge>
         </IconButton>
-        <p>Notifications</p>
+        <p onClick={handleMobileMenuClose}>by Name</p>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
@@ -215,7 +224,7 @@ export default function PrimarySearchAppBar() {
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
-              size="large"
+              size="small"
               aria-label="show more"
               aria-controls={mobileMenuId}
               aria-haspopup="true"

@@ -1,9 +1,11 @@
 import { FormEventHandler, useEffect, useState } from 'react';
 import './App.css';
-import { FaTrash } from 'react-icons/fa';
 import { supabase } from './supabase';
-import Paper from '@mui/material/Paper'
-import { ReplayOutlined, WindowSharp } from '@mui/icons-material';
+import Button from '@mui/material/Button';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Fade from '@mui/material/Fade';
+import * as React from 'react';
 
 type Comment = {
   first_name: string;
@@ -16,10 +18,10 @@ type Comment = {
 
 }
 
-function Forms(props) {
+export default function Forms(props) {
   // const [is_deleted, setIs_Deleted] = useState(false)
   const [isEmpty, setIsEmpty] = useState(false);
-  const [comments, setComments] = useState<Comment[]>();
+  const [comments, setComments] = useState<Comment[{}]>();
   const [form, setForm] = useState<any>({});
   const [firstName, SetFirstName] = useState('');
   const [lastName, SetLastName] = useState('');
@@ -34,8 +36,6 @@ function Forms(props) {
    
 };
 
-
-
   useEffect(() => {
     getData();
   }, []);
@@ -45,6 +45,7 @@ function Forms(props) {
       const { data, error } = await supabase
         .from('comments')
         .select()
+        // .limit(3)
       if (error) throw error;
       if (data != null) {
         setComments(data)
@@ -54,69 +55,6 @@ function Forms(props) {
       alert(error.message)
     }
   }
-
-
-
-  // const getData = async (commentId: number) => {
-  //   const result = await fetch(
-  //     'https://avvidhxhjmaskwwewvey.supabase.co/rest/v1/comments' ,
-  //     {
-  //       headers: {
-  //         apikey:
-  //           'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF2dmlkaHhoam1hc2t3d2V3dmV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzEwMzc3MDgsImV4cCI6MTk4NjYxMzcwOH0.urgAvh6ctpOFwvZyBtl0JlIT-3Axvw_9eKBQhtFrmDY',
-  //       },
-  //     },
-  //     // SetFirstName(result.first_name)
-  //   );
-  //   const data = await result.json() as Comment[] ;
-  //   const filteredData = data.filter( comment=>comment);
-  //   setComments(filteredData);
-  //   // console.log(data)
-  // };
-
-
-    
-    // const getData = async (commentId: number) => {
-    //   const result = await fetch(
-    //     'https://avvidhxhjmaskwwewvey.supabase.co/rest/v1/comments' ,
-    //     {
-    //       headers: {
-    //         apikey:
-    //           'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF2dmlkaHhoam1hc2t3d2V3dmV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzEwMzc3MDgsImV4cCI6MTk4NjYxMzcwOH0.urgAvh6ctpOFwvZyBtl0JlIT-3Axvw_9eKBQhtFrmDY',
-    //       },
-    //     },
-    //     // SetFirstName(result.first_name)
-    //   );
-    //   const data = await result.json() as Comment[] ;
-    //   const filteredData = data.filter( comment=>comment);
-    //   setComments(filteredData);
-    //   // console.log(data)
-    // };
-    
-
-  //   async function onFormSubmit(){
-  //     try {
-  //       const {data, error} = await supabase
-  //       .from('comments')
-  //       .insert({
-  //         first_name: firstName,
-  //         last_name: lastName,
-  //         email: email,
-  //         comment:comment,
-  //         date: date
-          
-
-  //       })
-  //       .single()
-  //       if(error) throw error;
-  //       window;location.reload();
-  //     }
-  //     catch(error){
-  //       alert(error.message)
-  //     }
-  // }
-
-
   
     async function onFormSubmit(event: React.FormEvent) {
       event.preventDefault();
@@ -140,81 +78,15 @@ function Forms(props) {
       );
       console.log(result);
       location.reload();
-      // getData();
-      
-
     }
 
-
-
-  //   async function deleteComment(commentId: number){
-  //     try {
-  //       const {data, error} = await supabase
-  //       .from('comments')
-  //       .delete()
-  //       .eq('id', comments.id)
-  //       // select()
-  //       if(error) throw error;
-  //       window;location.reload();
-  //     }
-  //     catch(error){
-  //       alert(error.message)
-  //     }
-  // }
-
-
-
-// useEffect(() => {
-//   getData();
-// }, []);
-
-// const getData = async (commentId: number) => {
-//   const result = await fetch(
-//     'https://avvidhxhjmaskwwewvey.supabase.co/rest/v1/comments',
-//     {
-//       headers: {
-//         apikey:
-//           'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF2dmlkaHhoam1hc2t3d2V3dmV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzEwMzc3MDgsImV4cCI6MTk4NjYxMzcwOH0.urgAvh6ctpOFwvZyBtl0JlIT-3Axvw_9eKBQhtFrmDY',
-//       },
-//     },
-//     // SetFirstName(result.first_name)
-//   );
-//   const data = await result.json() as Comment[];
-//   const filteredData = data.filter(comment => comment);
-//   setComments(filteredData);
-//   // console.log(data)
-// };
 useEffect(() => {
   getData();
 }, []);
 
 
-// async function onFormSubmit() {
-//   try {
-//     const { error } = await supabase
-//       .from('comments')
-//       .insert({
-//         name: firstName,
-//         last: lastName,
-//         // comment: comments,
-//         schedule_date: date,
-//         email: email,
-//       })
-//     if (error) throw error;
-//     if (data != null) {
-//     }
-//   } catch (error) {
-//     console.log(error.message)
-//   }
-//   getData();
-// }
-
-
-
 
 async function isDeleted(commentId: number) {
-  // TODO: Add code to update comment
-  // let is_deleted = true
   const result = await fetch(
     'https://avvidhxhjmaskwwewvey.supabase.co/rest/v1/comments?id=eq.' + commentId,
     {
@@ -229,61 +101,60 @@ async function isDeleted(commentId: number) {
     }
   )
   getData();
-  // { comments?.map(comment=>{comment.is_deleted = true})
 }
 
-
-
-
-
-
-
-
-
-
-//   function isDeleted(commentId: number){ comments?.map(comment=>{comment.is_deleted = true})
-// }
 
 function selectPerson() {
 
 }
 
+const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+   const FirstComment = comments.sort(function(a, b) {
+    if (a.first_name < b.first_name) {
+      return -1;
+    }
+    if (a.first_name > b.first_name) {
+      return 1;
+    }
+    return 0;
+  });
+  console.log(FirstComment)
+  };
+
 
 return (
   <div>
 
-    {/* <table border={1}>
-      
-        <tr>
-          <th>ID</th>
-          <th>First Names</th>
-          <th>Last Names</th>
-          <th>Emails</th>
-          <th>Comment</th>
-          <th>Dates</th>
-          <th>Update</th>
-          <th>Action</th>
-          <th>Is Deleted</th>
-        </tr>
 
-        {comments && comments.map(comment => {
-          return <tr key={comment.id}>
-            <td>{comment.id}</td>
-            <td>{comment.first_name}</td>
-            <td>{comment.last_name}</td>
-            <td>{comment.email}</td>
-            <td> {comment.comment}</td>
-            <td> <button>change</button> </td>
-            <td>{comment.schedule_date}</td>
-            <td><FaTrash onClick={() => {
-
-            deleteComment(comment.id)
-            }} /></td>
-            <td>{JSON.stringify(comment.is_deleted)}</td>
-          </tr>
-        })}
-        
-      </table> */}
+      <Button
+        id="fade-button"
+        aria-controls={open ? 'fade-menu' : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
+        onClick={handleClick}
+      >
+        Filter
+      </Button>
+      <Menu
+        id="fade-menu"
+        MenuListProps={{
+          'aria-labelledby': 'fade-button',
+        }}
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        TransitionComponent={Fade}
+      >
+        <MenuItem onClick={handleClose}>by Date</MenuItem>
+        <MenuItem onClick={handleClose}>By Name</MenuItem>
+        {/* <MenuItem onClick={handleClose}></MenuItem> */}
+      </Menu>
 
 
 
@@ -328,13 +199,5 @@ return (
       >
         update
       </button>
-
-    </div>
-    )
-      
-
-};
-
-
-
-export default Forms;
+  </div>
+    )};

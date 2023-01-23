@@ -1,27 +1,27 @@
-import { ButtonGroup, Button } from "react-bootstrap";
+import { ButtonGroup,  } from "react-bootstrap";
 import { Comment } from "./Card";
 import Grid from "@mui/material/Grid";
 import Forms from "./Forms";
 import { Person2Rounded, CommentBankTwoTone, DateRangeRounded, EmailRounded, DeleteForeverRounded } from "@mui/icons-material";
-import { Paper, Box, Typography } from "@mui/material";
+import { Paper, Box, Typography, Button } from "@mui/material";
 import { useState } from "react";
 import { supabase } from "./supabase";
+import {format} from 'date-fns'
 
 
-
-export default function CommentCard({ comment, isDeleted, isNotDeleted, updadte, }:
+export default function CommentCard({ comment, isDeleted, isNotDeleted,}:
     {
         comment: Comment, 
         isDeleted(commentId: number): Promise<void>,
         isNotDeleted(commentId: number): Promise<void>,
-        updadte(commentId: number): Promise<void>,
     }) {
 
         // const [title, setTitle] = useState(props.title);
-        const [email, setEmail] = useState()
+        const [email, setEmail] = useState('')
         const [people, setPeople] = useState([]);
       // const [editing, setEditing] = useState(false
 
+      const dateFormat = format(new Date(comment.schedule_date), "MM/dd/yyyy");
        
 
 
@@ -29,6 +29,7 @@ export default function CommentCard({ comment, isDeleted, isNotDeleted, updadte,
        
 
         const editEmail = editMode&& <input id="email" placeholder="change email" onChange={(e)=>setEmail(e.target.value)}></input>
+
 
         function cancle(){
             setEditMode(false)
@@ -42,7 +43,7 @@ export default function CommentCard({ comment, isDeleted, isNotDeleted, updadte,
               .update({
                 // first_name: first,
                 // last_name: last,
-                email: email,
+                email:  email,
                 // date: date,
               })
               .eq('id', comment.id)
@@ -87,7 +88,8 @@ export default function CommentCard({ comment, isDeleted, isNotDeleted, updadte,
                         }}>
                             <DateRangeRounded sx={{ width: 15.5 }} />
                             <Typography color={'black'} variant="subtitle1" component="h2">
-                                {new Date (comment.schedule_date).toLocaleString()}
+                                {/* {new Date (comment.schedule_date).toLocaleString()} */}
+                                {dateFormat}
                             </Typography>
                         </Box>
                         <Box
@@ -131,24 +133,13 @@ export default function CommentCard({ comment, isDeleted, isNotDeleted, updadte,
                             }} >edit</Button> ||  <Button color='success' onClick={() => update()}>update</Button>}
                              {editMode && <Button color='success' onClick={() => cancle()}>unedit</Button>}
                             {/* <Button color='success' onClick={() => update()}>cancel</Button> */}
+                            {comment.is_deleted&& <Button color='warning' onClick={() => isNotDeleted(comment.id)}>undelete</Button>}
                             {editMode && <Button color='warning' onClick={() => isDeleted(comment.id)}>delete</Button>}
                         </ButtonGroup>
 
                     </Paper>
 
                 </Grid>
-                
-                {/* </Grid> */}
-                {/* <Box padding={3}>
-      <Paper elevation={5}>
-        <Typography variant="h6" component="h2">
-          {comment.first_name} {comment.last_name}
-        </Typography>
-        <Typography variant="h6" component="h2">
-        {comment.email}
-        </Typography>
-      </Paper>
-      </Box> */}
             </div>
         </div>
     )
