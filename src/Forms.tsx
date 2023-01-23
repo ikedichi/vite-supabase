@@ -6,6 +6,8 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Fade from '@mui/material/Fade';
 import * as React from 'react';
+import CommentCard from './CommentCard';
+import UndoIcon from '@mui/icons-material/Undo';
 
 type Comment = {
   first_name: string;
@@ -18,21 +20,21 @@ type Comment = {
 
 }
 
-export default function Forms(props) {
+export default function Forms(props:{title: any, setCardFilter:(list: Comment[])=> void}) {
   // const [is_deleted, setIs_Deleted] = useState(false)
   const [isEmpty, setIsEmpty] = useState(false);
-  const [comments, setComments] = useState<Comment[{}]>();
+  const [comments, setComments] = useState<Comment[]>([]);
   const [form, setForm] = useState<any>({});
   const [firstName, SetFirstName] = useState('');
   const [lastName, SetLastName] = useState('');
   const [email, SetEmail] = useState('');
-  const [comment, setComment] = useState('')
+  // const [comment, setComment] = useState('')
   const [date, setEnteredDate] = useState('');
   const [title, setTitle] = useState(props.title);
   const clickHandler = () => {
     setTitle(<input id="email" placeholder="change email" onChange={(e)=>SetEmail(e.target.value)}></input>
     );
-    console.log(email);
+    console.log(email); 
    
 };
 
@@ -113,34 +115,74 @@ const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = () => {
+
+
+const menuClose = () => {
+  setAnchorEl(null);
+  location.reload()
+}
+
+  const handleNameFilter = () => {
     setAnchorEl(null);
    const FirstComment = comments.sort(function(a, b) {
     if (a.first_name < b.first_name) {
       return -1;
     }
-    if (a.first_name > b.first_name) {
+    if (a.last_name > b.last_name) {
       return 1;
     }
     return 0;
   });
   console.log(FirstComment)
+  // location.reload()
+  props.setCardFilter(FirstComment)
+  };
+
+
+  const handleDeleteFilter = () => {
+    setAnchorEl(null);
+   const DeletedComment = comments.sort(function(a, b) {
+    if (a.is_deleted > b.is_deleted) {
+      return -1;
+    }
+    if (a.is_deleted < b.is_deleted) {
+      return 1;
+    }
+    return 0;
+  });
+  console.log(DeletedComment)
+  props.setCardFilter(DeletedComment)
+  };
+
+  const handleDateFilter = () => {
+    setAnchorEl(null);
+   const DateComment = comments.sort(function(a, b) {
+    if (a.schedule_date < b.schedule_date) {
+      return -1;
+    }
+    if (a.schedule_date > b.schedule_date) {
+      return 1;
+    }
+    return 0;
+  });
+  console.log(DateComment)
+  props.setCardFilter(DateComment)
   };
 
 
 return (
   <div>
-
-
+    {/* <CommentCard handleNameFilter={handleNameFilter}  />  */}
       <Button
         id="fade-button"
         aria-controls={open ? 'fade-menu' : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
-      >
-        Filter
+      > <div>
+        Filter </div> 
       </Button>
+      <button onClick={menuClose} > <UndoIcon/> </button>
       <Menu
         id="fade-menu"
         MenuListProps={{
@@ -148,12 +190,12 @@ return (
         }}
         anchorEl={anchorEl}
         open={open}
-        onClose={handleClose}
+        onClose={menuClose}
         TransitionComponent={Fade}
       >
-        <MenuItem onClick={handleClose}>by Date</MenuItem>
-        <MenuItem onClick={handleClose}>By Name</MenuItem>
-        {/* <MenuItem onClick={handleClose}></MenuItem> */}
+        <MenuItem onClick={handleDateFilter}>by Date</MenuItem>
+        <MenuItem onClick={handleNameFilter}>By Name</MenuItem>
+        <MenuItem onClick={handleDeleteFilter}>By Deleted</MenuItem>
       </Menu>
 
 

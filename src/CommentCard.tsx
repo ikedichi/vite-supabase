@@ -11,7 +11,8 @@ import {format} from 'date-fns'
 
 export default function CommentCard({ comment, isDeleted, isNotDeleted,}:
     {
-        comment: Comment, 
+         comment: Comment, 
+        //  handleClose: () => void,
         isDeleted(commentId: number): Promise<void>,
         isNotDeleted(commentId: number): Promise<void>,
     }) {
