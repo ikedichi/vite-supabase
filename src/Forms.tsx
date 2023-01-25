@@ -20,7 +20,7 @@ type Comment = {
 
 }
 
-export default function Forms(props:{title: any, setCardFilter:(list: Comment[])=> void}) {
+export default function Forms(props: { title: any; setCardFilter: (list: Comment[]) => void; }) {
   // const [is_deleted, setIs_Deleted] = useState(false)
   const [isEmpty, setIsEmpty] = useState(false);
   const [comments, setComments] = useState<Comment[]>([]);
@@ -135,7 +135,7 @@ const menuClose = () => {
   });
   console.log(FirstComment)
   // location.reload()
-  props.setCardFilter(FirstComment)
+  props.setCardFilter([...FirstComment])
   };
 
 
@@ -151,7 +151,7 @@ const menuClose = () => {
     return 0;
   });
   console.log(DeletedComment)
-  props.setCardFilter(DeletedComment)
+  props.setCardFilter([...DeletedComment])
   };
 
   const handleDateFilter = () => {
@@ -182,7 +182,7 @@ return (
       > <div>
         Filter </div> 
       </Button>
-      <button onClick={menuClose} > <UndoIcon/> </button>
+        {{handleDateFilter} && 'car'}
       <Menu
         id="fade-menu"
         MenuListProps={{

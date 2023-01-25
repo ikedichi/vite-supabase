@@ -100,7 +100,8 @@ async function isNotDeleted(commentId: number) {
   return (
     <div>
       <div>.</div>
-      <Forms setCardFilter={setComments} title={''}></Forms>
+      <Forms setCardFilter={setComments} title = 'Namejhjh'></Forms>
+      {/* <Forms title ='car'></Forms> */}
       {comments &&
         comments.map((comment) => {
           return (
