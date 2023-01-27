@@ -57,11 +57,10 @@ export default function CommentCard({ comment, isDeleted, isNotDeleted,}:
      
           
     return (
-        <div >
-            <div >
+       <div>
                 {/* <Forms title={comment.email}></Forms> */}
                 {/* <Grid container spacing={4}> */}
-                <Grid>
+                <Grid xs ={12} sm={6} md={4}>
 
                     <Paper elevation={5} >
                         <Box sx={{
@@ -74,6 +73,7 @@ export default function CommentCard({ comment, isDeleted, isNotDeleted,}:
                                 {comment.first_name} {comment.last_name} {comment.id}
                             </Typography>
                         </Box>
+                        
                         <Box sx={{
                              alignItems: 'center',
                             display: 'flex'
@@ -141,7 +141,7 @@ export default function CommentCard({ comment, isDeleted, isNotDeleted,}:
                     </Paper>
 
                 </Grid>
-            </div>
+           
         </div>
     )
 }

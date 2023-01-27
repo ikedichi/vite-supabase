@@ -22,7 +22,11 @@ type Comment = {
 
 export default function Forms(props: { title: any; setCardFilter: (list: Comment[]) => void; }) {
   // const [is_deleted, setIs_Deleted] = useState(false)
-  const [isEmpty, setIsEmpty] = useState(false);
+  const [isFilterdDelete, setIsFilterdDelete] = useState(false);
+  const [isFilterdName, setIsFilterdName] = useState(false);
+  const [isFilterdDate, setIsFilterdDate] = useState(false);
+  const [isNotFilterd, setIsNotFilterd] = useState(true);
+
   const [comments, setComments] = useState<Comment[]>([]);
   const [form, setForm] = useState<any>({});
   const [firstName, SetFirstName] = useState('');
@@ -31,6 +35,8 @@ export default function Forms(props: { title: any; setCardFilter: (list: Comment
   // const [comment, setComment] = useState('')
   const [date, setEnteredDate] = useState('');
   const [title, setTitle] = useState(props.title);
+
+
   const clickHandler = () => {
     setTitle(<input id="email" placeholder="change email" onChange={(e)=>SetEmail(e.target.value)}></input>
     );
@@ -122,6 +128,8 @@ const menuClose = () => {
   location.reload()
 }
 
+const long = comments.length
+
   const handleNameFilter = () => {
     setAnchorEl(null);
    const FirstComment = comments.sort(function(a, b) {
@@ -134,7 +142,10 @@ const menuClose = () => {
     return 0;
   });
   console.log(FirstComment)
-  // location.reload()
+  setIsNotFilterd(false)
+  setIsFilterdDate(false)
+  setIsFilterdDelete(false)
+  setIsFilterdName(true)
   props.setCardFilter([...FirstComment])
   };
 
@@ -150,8 +161,13 @@ const menuClose = () => {
     }
     return 0;
   });
+  setIsFilterdName(false)
+  setIsNotFilterd(false)
+  setIsFilterdDate(false)
+  setIsFilterdDelete(true)
   console.log(DeletedComment)
-  props.setCardFilter([...DeletedComment])
+  props.setCardFilter([...DeletedComment
+  ])
   };
 
   const handleDateFilter = () => {
@@ -165,9 +181,29 @@ const menuClose = () => {
     }
     return 0;
   });
+  setIsFilterdName(false)
+  setIsFilterdDelete(false)
+  setIsNotFilterd(false)
+  setIsFilterdDate(true)
   console.log(DateComment)
   props.setCardFilter(DateComment)
   };
+
+let variable1 = "option1";
+let variable2 = "option2";
+let variable3 = "option3";
+
+let selectedVariable = variable3;
+
+if (selectedVariable === variable1) {
+  console.log("1!");
+} else if (selectedVariable === variable2) {
+  console.log("2!");
+} else if (selectedVariable === variable3) {
+  console.log("3!");
+} else {
+  console.log("Invalid selection");
+}
 
 
 return (
@@ -182,7 +218,11 @@ return (
       > <div>
         Filter </div> 
       </Button>
-        {{handleDateFilter} && 'car'}
+      <div>
+      <Button>        {isFilterdDelete && 'filtred by Deleted'}
+        {isFilterdDate && 'filtred by Date'}
+        {isFilterdName && 'filtred by Name'}
+        {isNotFilterd && `${long} people in database`}</Button></div>
       <Menu
         id="fade-menu"
         MenuListProps={{
@@ -227,8 +267,8 @@ return (
           }}></input>
       </div>
       <div>
-        <label>date</label>
-        <input type="date" placeholder="date"
+        <label></label>
+        <input type="string" placeholder="date"
           onChange={(e) => {
             setForm((prev) => ({ ...prev, schedule_date: e.target.value }));
           }}></input>

@@ -106,7 +106,7 @@ async function isNotDeleted(commentId: number) {
         comments.map((comment) => {
           return (
             <CommentCard key={comment.id} comment={comment} 
-            isDeleted={isDeleted} isNotDeleted={isNotDeleted} />            
+            isDeleted={isDeleted} isNotDeleted={isNotDeleted} />           
           );
         })}
     </div>
