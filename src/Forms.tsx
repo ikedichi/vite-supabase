@@ -1,7 +1,8 @@
 import { FormEventHandler, useEffect, useState } from 'react';
 import './App.css';
+import { Paper, Box, Typography, Button } from "@mui/material";
 import { supabase } from './supabase';
-import Button from '@mui/material/Button';
+// import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Fade from '@mui/material/Fade';
@@ -189,21 +190,20 @@ const long = comments.length
   props.setCardFilter(DateComment)
   };
 
-let variable1 = "option1";
-let variable2 = "option2";
-let variable3 = "option3";
+//   function search(array, term) {
+//     return array.filter(function(comments) {
+//         for (let key in comments) {
+//             if (comments[key].toString().toLowerCase().includes(term.toLowerCase())) {
+//                 return true;
+//             }
+//         }
+//         return false;
+//     });
+// }
 
-let selectedVariable = variable3;
 
-if (selectedVariable === variable1) {
-  console.log("1!");
-} else if (selectedVariable === variable2) {
-  console.log("2!");
-} else if (selectedVariable === variable3) {
-  console.log("3!");
-} else {
-  console.log("Invalid selection");
-}
+// let result = search(comments, "ap");
+// console.log(result);
 
 
 return (
@@ -219,10 +219,10 @@ return (
         Filter </div> 
       </Button>
       <div>
-      <Button>        {isFilterdDelete && 'filtred by Deleted'}
+      <Typography color='secondary'>        {isFilterdDelete && 'filtred by Deleted'}
         {isFilterdDate && 'filtred by Date'}
         {isFilterdName && 'filtred by Name'}
-        {isNotFilterd && `${long} people in database`}</Button></div>
+        {isNotFilterd && `${long} people in database`}</Typography></div>
       <Menu
         id="fade-menu"
         MenuListProps={{
@@ -273,13 +273,14 @@ return (
             setForm((prev) => ({ ...prev, schedule_date: e.target.value }));
           }}></input>
         </div>
-        <button onClick={()=>onFormSubmit(comment.id)}> submit</button>
+        <Button onClick={()=>onFormSubmit(comment.id)}> submit</Button>
         {/* <button type='submit'>Submit</button> */}
       </form>
-      <button
+      {/* <Button
        onClick={()=>selectPerson(comment.id)}
+       color='success'
       >
         update
-      </button>
+      </Button> */}
   </div>
     )};

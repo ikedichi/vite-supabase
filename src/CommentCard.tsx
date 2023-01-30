@@ -60,7 +60,7 @@ export default function CommentCard({ comment, isDeleted, isNotDeleted,}:
        <div>
                 {/* <Forms title={comment.email}></Forms> */}
                 {/* <Grid container spacing={4}> */}
-                <Grid xs ={12} sm={6} md={4}>
+                <Grid p={2} xs ={12} sm={6} md={4}>
 
                     <Paper elevation={5} >
                         <Box sx={{
@@ -69,7 +69,7 @@ export default function CommentCard({ comment, isDeleted, isNotDeleted,}:
                             display: 'flex'
                         }}>
                             <Person2Rounded />
-                            <Typography color={'blue'} variant="h6" component="h2">
+                            <Typography color= 'primary' variant="h6" component="h2">
                                 {comment.first_name} {comment.last_name} {comment.id}
                             </Typography>
                         </Box>
@@ -99,7 +99,7 @@ export default function CommentCard({ comment, isDeleted, isNotDeleted,}:
                                 display: 'flex'
                             }}>
                             <EmailRounded sx={{ width: 15.5 }}></EmailRounded>
-                            {!editMode && <Typography color={'blue'} variant="body2" component="h2">
+                            {!editMode && <Typography color='primary' variant="body2" component="h2">
                                 {comment.email}
                             </Typography>}
                             {editEmail} 
@@ -111,7 +111,7 @@ export default function CommentCard({ comment, isDeleted, isNotDeleted,}:
                                 display: 'flex'
                             }}>
                             <EmailRounded sx={{ width: 15.5 }}></EmailRounded>
-                            <Typography color={'blue'} variant="body2" component="h2">
+                            <Typography color='primary' variant="body2" component="h2">
                             {/* <div>{email}</div> */}
                             </Typography>
                             <div>{email}</div>

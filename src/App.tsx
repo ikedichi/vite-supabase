@@ -15,7 +15,8 @@ import { supabase } from "./supabase";
 import React, { FormEventHandler, useEffect, useState } from "react";
 import Box from '@mui/material/Box'
 import {EmailRounded, CommentBankTwoTone, Person2Rounded, DateRangeRounded} from '@mui/icons-material';
-import Menu from "./Menu"
+import Menu from "./Login"
+import Login from './Login';
 
 
 
@@ -37,7 +38,7 @@ function App() {
   const [firstName, SetFirstName] = useState('');
   const [lastName, SetLastName] = useState('');
   const [email, SetEmail] = useState('');
-
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     getData();
@@ -58,10 +59,21 @@ async function getData(){
   }
 }
   
+const loginHandler = (email, password) => {
+  // i should of course check email and password
+  // But it's just a dummy/ demo anyways
+  setIsLoggedIn(true);3 
+};
+
+const logoutHandler = () => {
+  setIsLoggedIn(false);
+};
 
   return (
     <div className='App'>
-      <PrimarySearchAppBa/>
+      <PrimarySearchAppBa onLogout={logoutHandler}/>
+      {!isLoggedIn &&<Login onLogin={loginHandler} />}
+      {  <Card></Card>}
       {/* <Menu></Menu> */}
     {/* <Container sx={{ margin: 9}}> */}
    
@@ -76,7 +88,7 @@ async function getData(){
    
     {/* < Grid> */}
      {/* <Forms></Forms> */}
-     <Card></Card>
+
      {/* <Card></Card>
      <Card></Card> */}
     {/* </Grid> */}

@@ -56,7 +56,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function PrimarySearchAppBar(
+export default function PrimarySearchAppBar(props
   // { comment, isDeleted, isNotDeleted, updadte, }:
   //   {
   //       comment: Comment, 
@@ -77,6 +77,7 @@ export default function PrimarySearchAppBar(
   };
 
   const handleMobileMenuClose = () => {
+    props.onLogout()
     setMobileMoreAnchorEl(null);
     
   };
@@ -135,7 +136,7 @@ export default function PrimarySearchAppBar(
             <MailIcon />
           </Badge>
         </IconButton>
-        <p>By Date</p>
+        <p onClick={handleMobileMenuClose}>Logout</p>
       </MenuItem>
       <MenuItem>
         <IconButton
