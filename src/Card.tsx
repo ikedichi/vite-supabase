@@ -102,7 +102,7 @@ const Card = () => {
                     display: 'flex'
                     }}>
                 <CommentBankTwoTone sx={{width: 15.5}}/>
-                <Typography variant="subtitle1" component="h2">
+                <Typography variant="subtitle1" component="h3">
                   {comment.comment} 
                 </Typography>
                 </Box>
